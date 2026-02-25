@@ -53,7 +53,7 @@
                     <span class="pin-badge" title="Закреплено">📌</span>
                 {% endif %}
 {% if user.is_staff or user.is_superuser %}
-    <object>
+    <object style="    background: #00000000;">
         <a href="{% url 'toggle_pin' p.id %}" 
            class="pin-button" 
            onclick="togglePinAjax(event, this)">

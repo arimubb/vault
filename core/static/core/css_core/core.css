@@ -636,7 +636,7 @@ input {
 
 /* Контейнер управления — всегда прижат к углу */
 .pin-management-layer {
-    position: absolute;
+    position: relative;
     top: 12px;
     right: 12px; /* Поставил справа, чтобы не перекрывало аватарку если что */
     z-index: 1000; /* Максимальный приоритет */
@@ -645,6 +645,7 @@ input {
     align-items: center;
     gap: 8px;
     pointer-events: auto; 
+    background: #00000000;
 }
 
 /* Иконка булавки (Индикатор) — ВИДЕН ВСЕГДА */
