@@ -1,0 +1,301 @@
+{% extends "base_core.html" %}
+
+{% block content %}
+<div class="notifications-container">
+    <div class="notifications-header">
+        <div class="header-left">
+            <h2>Центр уведомлений</h2>
+            <div class="status-line"></div>
+        </div>
+        {% if unread_count > 0 %}
+            <span class="badge-new">{{ unread_count }} новых</span>
+        {% endif %}
+    </div>
+
+    <div id="notifications-list" class="notifications-list">
+        {% for notification in notifications %}
+            <a href="{% url 'go_to_notification' notification.id %}" 
+               class="notification-card {% if not notification.is_read %}unread{% endif %}" 
+               data-id="{{ notification.id }}">
+               
+               <div class="card-glow"></div> <div class="notification-icon-wrapper">
+                   {% if notification.type == 'reply' %}
+                       <div class="icon-box reply">💬</div>
+                   {% elif notification.type == 'like' %}
+                       <div class="icon-box like">❤️</div>
+                   {% endif %}
+               </div>
+
+               <div class="notification-body">
+                   <div class="notification-main" style="  background: #00000000;">
+                       <span class="user-name">{{ notification.sender.username }}</span>
+                       <span class="action-text">
+                           {% if notification.type == 'reply' %}ответил на ваш комментарий{% else %}лайкнул ваш комментарий{% endif %}
+                       </span>
+                   </div>
+                   <div class="comment-bubble">
+                       <p class="comment-preview">"{{ notification.comment.content|truncatechars:50 }}"</p>
+                   </div>
+                   <div class="notification-footer" style="background: #00000000;">
+                       <span class="notification-time">
+                           <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/></svg>
+                           {{ notification.created_at|timesince }} назад
+                       </span>
+                   </div>
+               </div>
+               
+               {% if not notification.is_read %}
+                   <div class="unread-indicator">
+                       <div class="pulse-dot"></div>
+                   </div>
+               {% endif %}
+            </a>
+        {% empty %}
+            <div class="empty-state">
+                <div class="empty-icon-animated">📭</div>
+                <p>Хранилище пусто. Уведомлений нет.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+/* Контейнер и шрифты */
+.notifications-container {
+    max-width: 750px;
+    margin: 50px auto;
+    padding: 0 25px;
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: transparent;
+}
+
+/* Заголовок с акцентом */
+.notifications-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.notifications-header h2 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -1px;
+}
+
+.status-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #00ffcc, transparent);
+    margin-top: 8px;
+    border-radius: 2px;
+}
+
+.badge-new {
+    background: rgba(0, 255, 204, 0.1);
+    color: #00ffcc;
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 700;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.1);
+}
+
+/* Карточка (Glassmorphism) */
+.notification-card {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    background: rgba(0, 0, 0, 0.03);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    margin-bottom: 16px;
+    text-decoration: none;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
+}
+
+.notification-card:hover {
+    transform: scale(1.02) translateX(10px);
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(0, 255, 204, 0.2);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+/* Эффект свечения при наведении */
+.card-glow {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 255, 204, 0.05), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.notification-card:hover .card-glow { opacity: 1; }
+
+.notification-card.unread {
+    border-left: 2px solid #00ffcc;
+    background: rgba(0, 255, 204, 0.02);
+}
+
+/* Иконки */
+.notification-icon-wrapper {
+    margin-right: 20px;
+    z-index: 1;
+}
+
+.icon-box {
+    width: 55px;
+    height: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    font-size: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.icon-box.reply { box-shadow: 0 0 15px rgba(88, 166, 255, 0.1); }
+.icon-box.like { box-shadow: 0 0 15px rgba(248, 81, 73, 0.1); }
+
+/* Тело уведомления */
+.notification-body {
+    flex: 1;
+    z-index: 1;
+    background: #00000000;
+}
+
+.user-name {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 16px;
+    background: #00000000;
+}
+
+.action-text {
+    color: #8b949e;
+    background: #00000000;
+    font-size: 15px;
+    margin-left: 4px;
+}
+
+.comment-bubble {
+    margin-top: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 14px;
+    border-radius: 12px;
+    border-left: 3px solid rgba(255, 255, 255, 0.1);
+}
+
+.comment-preview {
+    margin: 0;
+    color: #c9d1d9;
+    font-size: 14px;
+    background: #00000000;
+
+    font-style: italic;
+    line-height: 1.5;
+}
+
+.notification-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    background: #00000000;
+    color: #58a6ff;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+/* Индикатор непрочитанного */
+.unread-indicator {
+    padding-left: 15px;
+}
+
+.pulse-dot {
+    width: 10px;
+    height: 10px;
+    background: #00ffcc;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 10px #00ffcc;
+}
+
+.pulse-dot::after {
+    content: '';
+    position: absolute;
+    width: 100%; height: 100%;
+    background: #00ffcc;
+    border-radius: 50%;
+}
+
+
+/* Анимация пустоты */
+.empty-state {
+    text-align: center;
+    padding: 80px 0;
+    color: #8b949e;
+}
+
+.empty-icon-animated {
+    font-size: 60px;
+    margin-bottom: 20px;
+    filter: grayscale(1);
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const notificationCards = document.querySelectorAll('.notification-card.unread');
+
+    notificationCards.forEach(card => {
+        card.addEventListener('click', function(e) {
+            // 1. Сразу находим нужные данные
+            const url = this.getAttribute('href');
+            const cardElement = this;
+
+            // 2. МГНОВЕННО удаляем карточку из списка (физически из HTML)
+            // Это создаст эффект исчезновения еще до того, как страница перегрузится
+            cardElement.style.display = 'none'; 
+
+            // 3. Мгновенно обновляем счетчик
+            const countBadge = document.querySelector('.badge-new');
+            if (countBadge) {
+                let count = parseInt(countBadge.textContent);
+                if (count > 1) {
+                    countBadge.textContent = (count - 1) + ' новых';
+                } else {
+                    countBadge.remove();
+                }
+            }
+
+            // 4. Отправляем запрос серверу "вдогонку" через fetch
+            // Используем keepalive, чтобы запрос не прервался при переходе
+            fetch(url, {
+                method: 'GET',
+                keepalive: true,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                }
+            });
+
+            // ПРИМЕЧАНИЕ: Мы НЕ пишем e.preventDefault(), 
+            // поэтому браузер одновременно с этим удалением начнет переход по ссылке.
+        });
+    });
+});
+</script>
+{% endblock %}

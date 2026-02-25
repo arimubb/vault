@@ -1,0 +1,35 @@
+{% extends 'base_core.html' %}
+{% load static %}
+
+    {% block content %}
+<div class="log-container">
+<!-- <video autoplay muted loop playsinline id="bg-video">
+    <source src="{% static 'core/images/bg.mp4' %}" type="video/mp4">
+</video> -->
+<form method="post" class="auth-form">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}">
+
+    {# Выводим общие ошибки только если они есть #}
+    {% if form.non_field_errors %}
+        <div class="form-error non-field-errors">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    {% for f in form %}
+    <p>
+        <label class="form-label-log" for="{{ f.id_for_label }}">{{ f.label }}</label>
+        {{ f }}
+    </p>
+    {# Выводим ошибки поля только если они есть #}
+    {% if f.errors %}
+        <div class="form-error field-error">{{ f.errors }}</div>
+    {% endif %}
+    {% endfor %}
+
+    <p><button class="login-btn" type="submit">Войти</button></p>
+    <a class="login-a" href="{% url 'users:password_reset' %}">Забыли пароль?</a>
+</form>
+
+</div>
+
+{% endblock %}

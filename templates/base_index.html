@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+<link type="text/css" href="{% static 'index/css_index/nav.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'index/css_index/background.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'index/css_index/footer.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'index/css_index/index.css' %}" rel="stylesheet"/>
+<link rel="icon" href="{% static 'core/images/bolt.png' %}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Rubik+Wet+Paint&display=swap" rel="stylesheet">
+</head>
+<header>
+{% include 'index/includes/nav.html'  %}
+</header>
+<body style="margin: 0; padding: 0;">
+  <main>
+{% block content %}
+
+{% endblock %}
+</main>
+{% include 'index/includes/footer.html'  %}  
+</body>
+
+</html>

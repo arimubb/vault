@@ -1,0 +1,83 @@
+{% extends 'base_core.html' %}
+{% block header %}{% endblock %}
+
+{% block content %}
+<style>
+    .error-container {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #0f111a;
+        background-image: radial-gradient(circle at center, #1e2235 0%, #0f111a 100%);
+        font-family: 'Inter', sans-serif;
+        padding: 20px;
+    }
+
+    .error-card {
+        background: #161b22;
+        border: 1px solid #30363d;
+        padding: 50px 40px;
+        border-radius: 12px;
+        width: 100%;
+
+        max-width: 450px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        text-align: center;
+    }
+
+    .error-code {
+        font-size: 80px;
+        font-weight: 800;
+        color: #58a6ff; /* Синий акцент для 404 */
+        margin: 0;
+        line-height: 1;
+        background-color: rgba(0, 0, 0, 0);
+
+    }
+
+    .error-title {
+        color: #ffffff;
+        font-size: 22px;
+        background-color: rgba(0, 0, 0, 0);
+
+        margin: 20px 0 10px;
+    }
+
+    .error-text {
+        color: #8b949e;
+        font-size: 15px;
+        background-color: rgba(0, 0, 0, 0);
+
+        margin-bottom: 30px;
+        line-height: 1.5;
+    }
+
+    .btn-home {
+        display: inline-block;
+        background-color: #238636;
+        color: #ffffff !important;
+        padding: 12px 24px;
+        border-radius: 6px;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background-color 0.2s;
+    }
+
+    .btn-home:hover {
+        background-color: #2ea043;
+    }
+</style>
+
+<div class="error-container">
+    <div class="error-card">
+        <p class="error-code">404</p>
+        <h1 class="error-title">Страница не найдена</h1>
+        <p class="error-text">
+            Похоже, этот сектор хранилища <strong>VΛULT</strong> пуст или был перемещен.
+        </p>
+        <a href="{% url 'home' %}" class="btn-home">Вернуться на главную</a>
+    </div>
+</div>
+{% endblock %}

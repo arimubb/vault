@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка сервера | VΛULT</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f111a;
+            background-image: radial-gradient(circle at center, #1e2235 0%, #0f111a 100%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .error-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            padding: 50px 40px;
+            border-radius: 12px;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .error-code {
+            font-size: 80px;
+            font-weight: 800;
+            color: #d29922; /* Золотистый/Оранжевый для предупреждения */
+            margin: 0;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 22px;
+        background-color: rgba(0, 0, 0, 0);
+
+            margin: 20px 0 10px;
+        }
+
+        .error-text {
+            color: #8b949e;
+            font-size: 15px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        background-color: rgba(0, 0, 0, 0);
+
+        }
+
+        .btn-home {
+            display: inline-block;
+            background-color: #21262d;
+            color: #c9d1d9;
+            border: 1px solid #30363d;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-home:hover {
+            background-color: #30363d;
+            border-color: #8b949e;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-card">
+        <p class="error-code">500</p>
+        <h1 class="error-title">Внутренняя ошибка</h1>
+        <p class="error-text">
+            Системы <strong>VΛULT</strong> столкнулись с непредвиденным сбоем. Мы уже работаем над восстановлением доступа к вашим данным.
+        </p>
+        <a href="/" class="btn-home">Попробовать снова</a>
+    </div>
+</body>
+</html>

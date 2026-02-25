@@ -1,0 +1,443 @@
+{% load static %} 
+{% load coretags %} 
+<!DOCTYPE html> 
+<html lang="ru"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>{{ title }}</title> 
+    <link rel="icon" href="{% static 'core/images/bolt.png' %}"> 
+    <link type="text/css" href="{% static 'core/css_core/post.css' %}" rel="stylesheet"/> 
+</head> 
+<body> 
+    <div class="back-button-container"> 
+        <a href="/core" class="back-button"> 
+            <span class="back-arrow">←</span> Назад к статьям 
+        </a> 
+        {% if perms.core.change_post %} 
+            <a class="back-button" href="{% url 'editpage' post.slug %}">Редактировать</a> 
+        {% endif %} 
+    </div> 
+
+    <div class="post-container"> 
+        <!-- Заголовок --> 
+        <header class="post-header" style="display: flex; justify-content: space-between;"> 
+            <h1 id="post-title" data-slug="{{ post.slug }}">
+    {{ post.title }}
+</h1> 
+         
+           <div class="post-meta"> 
+       {% if post.cat %} 
+                    <span class="post-category"> 
+                        <a href="{% url 'category' post.cat.slug %}" style="text-decoration:none;color:wheat;"> 🏷️ {{ post.cat.name }} </a> 
+                    </span> 
+                {% endif %} 
+                {% if post.author and post.author.username %} 
+                    <span class=""> 
+                        <a class="name-post" href="{% url 'user_posts' post.author.username %}" style="text-decoration:none;color:wheat;"> 
+                            {% if post.author.photo %} 
+                                <img class="avatarka-core" src="{{ post.author.photo.url }}" alt=""> 
+                            {% else %} 
+                                <img class="avatarka-core" src="/media/users/default.png" alt=""> 
+                            {% endif %} 
+                            {{ post.author.username }} 
+
+                        </a> 
+                    </span> 
+                {% else %} 
+                    <span class="post-category">Неизвестен</span> 
+                {% endif %} 
+            </div> 
+        </header> 
+
+        <!-- Изображение --> 
+        {% if post.photo %} 
+            <div class="image-float-left"> 
+                <div class="post-image-wrap"> 
+                    <img src="{{ post.photo.url }}" alt="{{ post.title }}"> 
+                    {% if post.photo_caption %} 
+                        <p class="image-caption-wrap">{{ post.photo_caption }}</p> 
+                    {% endif %} 
+                </div> 
+            </div> 
+        {% endif %} 
+
+        <!-- Файл --> 
+        {% if post.file %} 
+            <div class="post-file"> 📎 Файл: <a href="{{ post.file.url }}" target="_blank">{{ post.file.name|truncatechars:50 }}</a> Скачать </div> 
+        {% endif %} 
+
+        <!-- Контент --> 
+        <div class="post-content"> 
+            {{ post.content|linebreaks }} 
+        </div> 
+
+
+    </div> 
+                        {% if post.time_create %} 
+                    <span class="post-date">📅 {{ post.time_create|date:"d E Y H:i" }}</span> 
+                {% endif %} 
+    <!-- ===== MODAL COMMENTS ===== --> 
+    <div id="commentsModal" class="modal-overlay"> 
+        <div class="modal-content" id="modalContent"> 
+            <h3>Комментарии</h3> 
+            <div class="modal-comments"> 
+                {% for comment in comments %} 
+                    {% include 'core/includes/comment.html' %} 
+                {% empty %} 
+                    <p>Комментариев пока нет</p> 
+                {% endfor %} 
+            </div> 
+
+            {% if user.is_authenticated %} 
+                <hr> 
+                <h9 style="font-size: 12px;">Оставить комментарий</h9> 
+                <form method="post" id="comment-form"> 
+                    {% csrf_token %} 
+                    {{ form.as_p }} 
+                    <input type="hidden" name="parent_id" id="parent_id">
+                    <button type="submit" style="display:none;"></button> 
+                    <button type="button" id="cancel-reply" style="display:none;">
+    Отменить ответ
+</button>
+
+                </form> 
+            {% else %} 
+                <p>Войдите чтобы оставить комментарий</p> 
+            {% endif %} 
+        </div> 
+    </div> 
+
+    <!-- Действия --> 
+    <div class="post-actions"> 
+        <button class="share-button" onclick="sharePost()">📤 Поделиться</button> 
+        <button class="print-button" onclick="printSimple()">🖨️ Распечатать</button> 
+        <button class="comment-button" onclick="openComments()">💬 ({{ comments|length }})Комментарии </button> 
+    </div> 
+
+    <!-- ================= JS ================= --> 
+    <script> 
+    document.addEventListener("DOMContentLoaded", function() { 
+        const commentContainer = document.querySelector(".modal-comments"); 
+
+        // ===== Функция лайка ===== 
+        function attachLike(btn) { 
+            btn.addEventListener("click", function() { 
+                const commentId = this.dataset.id; 
+                const heart = this.closest(".comment").querySelector(".heart-animation");
+
+                // Показ анимации сердца сразу
+                if (heart) {
+                    heart.style.display = "inline";
+                    heart.classList.remove("pop");
+                    void heart.offsetWidth;
+                    heart.classList.add("pop");
+                    setTimeout(() => { heart.style.display = "none"; }, 600);
+                }
+
+                // Обновление количества лайков с сервера
+                fetch("{% url 'like_comment' %}", { 
+                    method: "POST", 
+                    headers: { 
+                        "X-CSRFToken": "{{ csrf_token }}", 
+                        "Content-Type": "application/x-www-form-urlencoded" 
+                    }, 
+                    body: "comment_id=" + commentId 
+                }) 
+                .then(response => response.json()) 
+                .then(data => { 
+                    document.getElementById("likes-" + commentId).innerText = (data.total_likes > 0 ? "❤️" + data.total_likes : ""); 
+                }); 
+            }); 
+        }
+
+        // ===== Ответ на комментарий =====
+        document.addEventListener("click", function(e) {
+
+            if (e.target.classList.contains("reply-btn")) {
+
+                const commentId = e.target.dataset.id;
+                const username = e.target.dataset.username;
+
+                const textarea = document.querySelector("#comment-form textarea");
+                const parentInput = document.getElementById("parent_id");
+                const cancelBtn = document.getElementById("cancel-reply");
+
+                parentInput.value = commentId;
+                textarea.value = "@" + username + " ";
+                textarea.focus();
+
+                cancelBtn.style.display = "inline-block";
+
+                // 🔄 Плавная прокрутка
+                textarea.scrollIntoView({
+                    behavior: "smooth",
+                    block: "center"
+                });
+
+                document.getElementById("commentsModal").classList.add("active");
+            }
+        });
+
+        // ❌ Отмена ответа
+        document.getElementById("cancel-reply").addEventListener("click", function() {
+            document.getElementById("parent_id").value = "";
+            document.querySelector("#comment-form textarea").value = "";
+            this.style.display = "none";
+        });
+
+        
+
+        // ===== Дабл тап / дабл клик для лайка =====
+        function attachDoubleTap(commentElement) {
+            let lastTap = 0;
+
+            commentElement.addEventListener("touchend", function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    const likeBtn = commentElement.querySelector(".like-btn");
+                    if (likeBtn) likeBtn.click(); // теперь сразу анимация и обновление числа
+                }
+                lastTap = currentTime;
+            });
+
+            commentElement.addEventListener("dblclick", function() {
+                const likeBtn = commentElement.querySelector(".like-btn");
+                if (likeBtn) likeBtn.click();
+            });
+        }
+
+
+        // Привязка лайков к существующим комментариям
+        document.querySelectorAll(".like-btn").forEach(attachLike);
+        document.querySelectorAll(".comment").forEach(attachDoubleTap);
+
+        // ===== Удаление комментариев через AJAX ===== 
+        commentContainer.addEventListener("click", function(e) { 
+            if (e.target.classList.contains('delete-comment-btn')) { 
+                e.preventDefault(); 
+                const url = e.target.href; 
+                const commentDiv = e.target.closest(".comment"); 
+                fetch(url, { 
+                    method: "POST", 
+                    headers: { 
+                        "X-CSRFToken": "{{ csrf_token }}", 
+                        "X-Requested-With": "XMLHttpRequest" 
+                    }, 
+                    credentials: "same-origin" 
+                }) 
+                .then(response => response.json()) 
+                .then(data => { 
+                    if (data.success) commentDiv.remove(); 
+                    else alert("Ошибка при удалении комментария"); 
+                }) 
+                .catch(() => alert("Ошибка при удалении комментария")); 
+            } 
+        }); 
+
+        // ===== Добавление комментария через AJAX ===== 
+        const commentForm = document.getElementById("comment-form"); 
+        if (commentForm) { 
+            const textarea = commentForm.querySelector("textarea"); 
+            textarea.addEventListener("keydown", function(e) { 
+                if (e.key === "Enter" && !e.shiftKey) { 
+                    e.preventDefault(); 
+                    commentForm.dispatchEvent(new Event('submit', { cancelable: true })); 
+                } 
+            }); 
+            commentForm.addEventListener("submit", function(e) { 
+    e.preventDefault(); 
+    const formData = new FormData(this); 
+    const parentId = document.getElementById("parent_id").value; // Получаем ID родителя из скрытого поля
+
+    fetch("", { 
+        method: "POST", 
+        headers: { 
+            "X-Requested-With": "XMLHttpRequest", 
+            "X-CSRFToken": "{{ csrf_token }}" 
+        }, 
+        body: formData 
+    }) 
+    .then(response => response.json()) 
+    .then(data => { 
+        if (data.error) return; 
+
+        if (parentId) {
+            // 1. Ищем родительский комментарий по data-id кнопки "Лайк" или по другому признаку
+            const parentBtn = document.querySelector(`.like-btn[data-id="${parentId}"]`);
+            const parentCommentDiv = parentBtn.closest('.comment');
+
+            // 2. Создаем обертку для вложенности (класс .reply как в твоем HTML)
+            const replyWrapper = document.createElement('div');
+            replyWrapper.className = 'reply';
+            replyWrapper.innerHTML = data.html;
+
+            // 3. Вставляем СРАЗУ после родительского блока .comment
+            parentCommentDiv.after(replyWrapper);
+        } else {
+            // Если это не ответ, а новый основной комментарий
+            commentContainer.insertAdjacentHTML('afterbegin', data.html); 
+        }
+
+        // Очистка и сброс
+        commentForm.reset(); 
+        document.getElementById("parent_id").value = "";
+        document.getElementById("cancel-reply").style.display = "none";
+
+        // Инициализация функций для нового коммента (лайки и т.д.)
+        const addedElement = parentId 
+            ? document.querySelector(`.like-btn[data-id="${parentId}"]`).closest('.comment').nextElementSibling 
+            : commentContainer.querySelector(".comment:first-child");
+        
+        // Привязываем события к новому элементу
+        const newLikeBtn = addedElement.querySelector(".like-btn");
+        if (newLikeBtn) attachLike(newLikeBtn);
+        attachDoubleTap(addedElement);
+    }); 
+});
+        } 
+
+        // ===== Модалка комментариев ===== 
+        window.openComments = function() { 
+            document.getElementById("commentsModal").classList.add("active"); 
+        } 
+        document.addEventListener("click", function(e) { 
+            const modal = document.getElementById("commentsModal"); 
+            const content = document.getElementById("modalContent"); 
+            if (modal.classList.contains("active") && !content.contains(e.target) && !e.target.classList.contains("comment-button")) { 
+                modal.classList.remove("active"); 
+            } 
+        }); 
+    }); 
+
+    // ===== Поделиться постом ===== 
+    function sharePost() { 
+        if (navigator.share) { 
+            navigator.share({ 
+                title: '{{ post.title }}', 
+                text: '{{ post.content|truncatewords:30|striptags }}', 
+                url: window.location.href, 
+            }); 
+        } else { 
+            navigator.clipboard.writeText(window.location.href); 
+            alert('Ссылка скопирована!'); 
+        } 
+    } 
+
+    // ===== Печать поста ===== 
+function printSimple() {
+    // 1. Сбор данных
+    const title = document.getElementById('post-title')?.innerText || 'Без названия';
+    const content = document.querySelector('.post-content')?.innerText || '';
+    const date = document.querySelector('.post-date')?.innerText || '';
+    const author = document.querySelector('.name-post')?.innerText.trim() || 'Неизвестен';
+    const category = document.querySelector('.post-category')?.innerText.trim() || '';
+    const photo = document.querySelector('.post-image-wrap img')?.src;
+
+    // 2. Открытие окна
+    const printWindow = window.open('', '_blank', 'height=600,width=800');
+
+    // 3. Формирование документа
+    printWindow.document.write('<html><head><title>Печать</title>');
+    printWindow.document.write('<style>');
+    printWindow.document.write(`
+        body { 
+            font-family: "Times New Roman", Times, serif; 
+            padding: 30px; 
+            color: #000; 
+            line-height: 1.5; 
+            background: #fff;
+        }
+        .print-header { 
+            border-bottom: 2px solid #000; 
+            margin-bottom: 20px; 
+            padding-bottom: 10px; 
+        }
+        h1 { font-size: 22pt; margin: 0 0 5px 0; }
+        .meta { font-size: 10pt; color: #444; margin-bottom: 15px; }
+        
+        /* Стили для обтекания картинки */
+        .post-img { 
+            float: left;            /* Прижимаем к левому краю */
+            max-width: 40%;         /* Картинка занимает не более 40% ширины листа */
+            height: auto; 
+            margin: 0 20px 15px 0;  /* Отступы: справа и снизу, чтобы текст не прилипал */
+            border: 1px solid #eee;
+        }
+        
+        .content { 
+            font-size: 12pt; 
+            text-align: justify;    /* Ровный край текста (книжный стиль) */
+            white-space: pre-wrap;  /* Сохраняем переносы строк из Django */
+        }
+        
+        /* Очистка потока, чтобы футер не залез на картинку */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        
+        .footer { 
+            margin-top: 30px; 
+            border-top: 1px solid #ccc; 
+            padding-top: 10px; 
+            font-size: 8pt; 
+            color: #777; 
+            clear: both; 
+        }
+    `);
+    printWindow.document.write('</style></head><body>');
+
+    // Контент
+    printWindow.document.write('<div class="print-header">');
+    printWindow.document.write(`<h1>${title}</h1>`);
+    printWindow.document.write(`<div class="meta">${category} | Автор: ${author} | ${date}</div>`);
+    printWindow.document.write('</div>');
+
+    printWindow.document.write('<div class="clearfix">'); // Контейнер с очисткой флоата
+    
+    if (photo) {
+        printWindow.document.write(`<img src="${photo}" class="post-img">`);
+    }
+
+    printWindow.document.write(`<div class="content">${content}</div>`);
+    printWindow.document.write('</div>'); // конец clearfix
+    
+    printWindow.document.write(`<div class="footer">Источник: Vault AI — ${window.location.href}</div>`);
+
+    printWindow.document.write('</body></html>');
+
+    // 4. Печать
+    printWindow.document.close();
+    printWindow.focus();
+    
+    setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+    }, 450);
+}
+
+    document.addEventListener("click", function(e) { 
+        // Открытие меню 
+        if (e.target.closest(".burger")) { 
+            const menu = e.target.closest(".comment-menu"); 
+            document.querySelectorAll(".comment-menu").forEach(m => { 
+                if (m !== menu) m.classList.remove("active"); 
+            }); 
+            menu.classList.toggle("active"); 
+            return; 
+        } 
+        // Закрытие при клике вне 
+        if (!e.target.closest(".comment-menu")) { 
+            document.querySelectorAll(".comment-menu").forEach(m => m.classList.remove("active")); 
+        } 
+    }); 
+
+
+    
+
+    </script> 
+</body> 
+</html>

@@ -1,0 +1,195 @@
+/* Основной контейнер — обновленный эстетичный градиент */
+.addpost_cont {
+    max-width: 600px;
+    margin: 0px auto;
+    padding: 40px;
+    /* Глубокий полночный градиент */
+    background: linear-gradient(145deg, #0d1117, #161b22);
+    border-radius: 28px;
+    box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.6), /* Основная тень */
+        0 0 20px rgba(74, 110, 224, 0.1); /* Мягкое внешнее свечение */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+    animation: fadeIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+
+
+/* Заголовок с легким градиентным текстом */
+.addpost_h1 {
+    color: #fff;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 35px;
+    font-weight: 800;
+    letter-spacing: -1px;
+
+}
+
+/* Форма и параграфы (сохраняем твою логику вложенных фонов) */
+form, form p {
+    color: #c9d1d9 !important;
+    width: 100%;
+    background: transparent !important; /* Убрал лишние слои градиента, чтобы не "грязнить" основной вид */
+    margin-bottom: 25px;
+}
+
+form label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 500;
+    color: #8b949e;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Эстетичные инпуты */
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(0, 0, 0, 0.4) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #58a6ff;
+    background: rgba(88, 166, 255, 0.03) !important;
+    box-shadow: 0 0 0 4px rgba(88, 166, 255, 0.1);
+    transform: scale(1.01); /* Легкий эффект увеличения при фокусе */
+}
+
+/* Кнопка — теперь более минималистичная */
+button[type="submit"] {
+    background: #ffffff;
+    color: #0d1117;
+    border: none;
+    padding: 16px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    width: 100%;
+    margin-top: 10px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+}
+
+button[type="submit"]:hover {
+    background: #58a6ff;
+    color: #ffffff;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(88, 166, 255, 0.3);
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Исправленные ошибки (Django errorlist) */
+.errorlist {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 15px 0;
+}
+
+.errorlist li {
+    background: rgba(255, 107, 107, 0.1) !important; /* Убрал твой розовый фон */
+    color: #ff6b6b;
+    border-left: 3px solid #ff6b6b;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+}
+
+/* Контейнеры ошибок из шаблона */
+.form-error:not(:empty) {
+    display: block;
+    color: #ff6b6b;
+    padding: 10px 15px;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 8px;
+    border-left: 3px solid #ff6b6b;
+    margin: 10px 0;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+/* Контейнер для поля загрузки файла */
+input[type="file"] {
+    position: relative;
+    padding: 20px !important; /* Больше пространства */
+    border: 2px dashed rgba(88, 166, 255, 0.3) !important; /* Пунктирная рамка */
+    background: rgba(0, 0, 0, 0.3) !important;
+    border-radius: 16px;
+    cursor: pointer;
+    color: #8b949e;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Эффект при наведении на зону загрузки */
+input[type="file"]:hover {
+    border-color: #58a6ff !important;
+    background: rgba(88, 166, 255, 0.05) !important;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Стилизация текста внутри (для Chrome/Edge) */
+input[type="file"]::file-selector-button {
+    background: #21262d;
+    color: #c9d1d9;
+    border: 1px solid #30363d;
+    padding: 8px 16px;
+    border-radius: 8px;
+    margin-right: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+input[type="file"]:hover::file-selector-button {
+    background: #58a6ff;
+    color: white;
+    border-color: #58a6ff;
+}
+
+/* Если хочешь сделать специфический стиль для фото (если есть класс) */
+.photo-upload-zone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px dashed #30363d;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(22, 27, 34, 0.4);
+    transition: all 0.3s ease;
+}
+
+.photo-upload-zone:hover {
+    border-color: #bc85ff; /* Пурпурный акцент для фото */
+    box-shadow: 0 0 20px rgba(188, 133, 255, 0.1);
+}

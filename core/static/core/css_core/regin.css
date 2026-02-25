@@ -1,0 +1,100 @@
+/* Контейнер для регистрации (аналогичен логину для единства стиля) */
+.reg-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Чтобы заголовок и форма были в колонку */
+    justify-content: center;
+    align-items: center;
+    background-color: #0f111a;
+    background-image: radial-gradient(circle at center, #1e2235 0%, #0f111a 100%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    padding: 20px;
+}
+
+/* Заголовок "Регистрация" */
+.reg-container h1 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    letter-spacing: -0.5px;
+}
+
+/* Сама форма */
+.reg-container form {
+    background: #161b22;
+    border: 1px solid #30363d;
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 420px; /* Регистрация может быть чуть шире из-за длинных полей */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Метки полей (Email, Пароль и т.д.) */
+.form-label-log {
+    display: block;
+    color: #8b949e;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+/* Инпуты */
+.reg-container input {
+    width: 100%;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #c9d1d9;
+    font-size: 15px;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+.reg-container input:focus {
+    outline: none;
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+/* Кнопка регистрации */
+.login-btn {
+    width: 100%;
+    background-color: #1f6feb; /* Синий акцент для регистрации, чтобы отличить от входа */
+    color: #ffffff;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background 0.2s;
+}
+
+.login-btn:hover {
+    background-color: #388bfd;
+}
+
+/* Ошибки заполнения */
+.form-error {
+    color: #f85149;
+    font-size: 13px;
+    margin-top: 4px;
+    margin-bottom: 15px;
+}
+
+/* Убираем лишние отступы абзацев Django */
+.reg-container p {
+    margin: 0 0 18px 0;
+}
+
+/* Подсказки (если Django выводит help_text) */
+.helptext {
+    display: block;
+    color: #484f58;
+    font-size: 12px;
+    margin-top: 5px;
+}

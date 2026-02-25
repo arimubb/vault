@@ -1,0 +1,57 @@
+{% load static %}
+{% load coretags %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+<link rel="icon" href="{% static 'core/images/bolt.png' %}">
+<link type="text/css" href="{% static 'core/css_core/nav.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'core/css_core/core.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'core/css_core/addpost.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'core/css_core/login.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'core/css_core/regin.css' %}" rel="stylesheet"/>
+
+<link type="text/css" href="{% static 'core/css_core/profile.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'core/css_core/password.css' %}" rel="stylesheet"/>
+    {% block extra_css %}{% endblock %}
+
+</head>
+
+<body>
+{% block header %} 
+{% include 'core/includes/nav.html'  %}
+{% endblock %}
+
+
+{% block content %}
+
+
+{% endblock %}
+
+{% block navigation %}
+{% endblock %}
+    {% block extra_js %}{% endblock %}
+
+<footer style="
+    color: #8b949e; 
+    display: flex; 
+    justify-content: center; 
+    padding: 40px 20px; 
+    text-align: center; 
+    font-family: 'Inter', sans-serif; 
+    font-size: 13px; 
+    line-height: 1.6; 
+    background-color: rgba(255, 0, 0, 0);
+">
+    <p style="max-width: 600px; margin: 0;">
+        Данный сайт на стадии тестирования и постоянно улучшается по мере возможности. 
+        <br> Могут быть разные баги. По всем вопросам или при нахождении ошибки — 
+        <a href="https://t.me/rrimski" style="color: #58a6ff; text-decoration: none; font-weight: 500;">пишите в TG @rrimski</a>
+    </p>
+</footer>
+</body>
+</html>

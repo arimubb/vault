@@ -1,0 +1,309 @@
+{% extends 'base_core.html' %} 
+{% load static %} 
+{% load coretags %} 
+
+{% block content %}
+<div class="body">
+  
+  <div class="header">
+    <h3 style="text-align: center; color: white; margin: 40px 0; font-size: 2.5rem;">
+      📚 Опубликованные посты
+    </h3>
+  </div>
+<div class="search-section">
+    <form action="{% url 'core' %}" method="get" class="search-box">
+        <div class="search-inner">
+            <input style="text-decoration: none; text-align: center;" type="text" name="q" placeholder="🔍 Найти пост или автора..." value="{{ search_query|default:'' }}" autocomplete="off">
+            {% if search_query %}
+                <a href="{% url 'core' %}" class="clear-search">✕</a>
+            {% endif %}
+        </div>
+    </form>
+</div>
+
+<div id="categories-wrapper">
+    <div class="categories-container">
+        <ul class="categories-list">
+            {% if cat_selected == 0 %}
+                <li class="category-item selected" id="all-cats-btn">
+                    <span>Все категории</span>
+                </li>
+            {% else %}
+                <li class="category-item" id="all-cats-btn">
+                    <a href="{% url 'core' %}" class="category-link-full">Все категории</a>
+                </li>
+            {% endif %} 
+            
+            {% show_categories cat_selected %}
+        </ul>
+        <a class="addpost" href="{% url 'add_post' %}">+</a>
+    </div>
+</div>
+
+  <div id="posts-wrapper">
+    
+      <div class="container">
+        
+        {% if posts %}
+            {% for p in posts %}
+            <a href="{{ p.get_absolute_url }}" class="post-a">
+              <div class="content {% if p.is_pinned %}pinned-style{% endif %}">
+                <div class="pin-management-layer">
+                {% if p.is_pinned %}
+                    <span class="pin-badge" title="Закреплено">📌</span>
+                {% endif %}
+{% if user.is_staff or user.is_superuser %}
+    <object>
+        <a href="{% url 'toggle_pin' p.id %}" 
+           class="pin-button" 
+           onclick="togglePinAjax(event, this)">
+            {% if p.is_pinned %} Открепить {% else %} Закрепить {% endif %}
+        </a>
+    </object>
+{% endif %}
+            </div>
+                <div class="post-media-area">
+                    {% if p.photo %}
+                        <img class="thumb-contain" src="{{ p.photo.url }}" alt="{{ p.title }}">
+                    {% elif p.file %}
+                        <div class="file-center-badge">
+                            <p class="file-p">📎 Файл: {{ p.file.name|truncatechars:20 }}</p>
+                        </div>
+                    {% else %}
+                        <div class="no-media-placeholder">
+                            <span class="placeholder-icon">📷</span>
+                            <p>Нет медиафайлов</p>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="post-info-area">
+                    
+                    <h2 class="post-title">{{ p.title }}</h2>
+                    <p class="post-content">{{ p.content|truncatechars:15 }}</p>
+                </div>
+
+                <div class="article-panel">
+                    <p class="first">
+                        <span class="cat-badge">{{p.cat.name}}</span> | 
+                        <img class="avatarka-core" src="{% if p.author.photo %}{{ p.author.photo.url }}{% else %}/media/users/default.png{% endif %}" alt="">
+                        {{p.author.username}}
+                    </p>
+                    <p class="last">{{ p.time_create|date:"d-m-Y" }}</p>
+                </div>
+              </div>
+            </a>
+            {% endfor %}
+        {% else %}
+            <div class="no-results">
+                <div class="no-results-content">
+                    <div class="no-results-icon">🛰️</div>
+                    <h3>Ничего не нашли...</h3>
+                    <p>По запросу ничего не обнаружено.</p>
+                </div>
+            </div>
+        {% endif %}
+      </div>
+
+      <div id="pagination-wrapper">
+          {% if page_obj.has_other_pages %}
+            <nav class="list-pages">
+              <ul>
+                {% if page_obj.has_previous %}
+                    <li class="page-num">
+                        <a href="?page={{ page_obj.previous_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}"> &lt; </a>
+                    </li>
+                {% endif %}
+
+                {% for p in paginator.page_range %}
+                    {% if page_obj.number == p %}
+                        <li class="page-num page-num-selcted">{{ p }}</li>
+                    {% elif p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                        <li class="page-num">
+                            <a href="?page={{ p }}{% if search_query %}&q={{ search_query }}{% endif %}">{{ p }}</a>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-num">
+                        <a href="?page={{ page_obj.next_page_number }}{% if search_query %}&q={{ search_query }}{% endif %}"> &gt; </a>
+                    </li>
+                {% endif %}
+              </ul>
+            </nav>
+          {% endif %}
+      </div>
+  </div>
+</div>
+
+<script>
+    // Выносим функцию в глобальную видимость, чтобы onclick её видел
+function togglePinAjax(event, element) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const url = element.getAttribute('href');
+    const card = element.closest('.content');
+    if (card) card.style.opacity = '0.5';
+
+    fetch(url, {
+        method: 'GET',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => {
+        // Мы вызываем обновление контента через существующую handleAjax
+        // Но так как handleAjax внутри DOMContentLoaded, мы обращаемся к ней так:
+        window.refreshPosts(); 
+    })
+    .catch(err => {
+        console.error('Ошибка:', err);
+        if (card) card.style.opacity = '1';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Делаем handleAjax доступной глобально, чтобы togglePinAjax мог её вызвать
+    window.refreshPosts = function() {
+        handleAjax(window.location.href);
+    };
+
+    // --- ТВОЯ ЛОГИКА ЖИВОГО ПОИСКА ---
+    const searchInput = document.querySelector('input[name="q"]');
+    let searchTimeout;
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const url = `{% url 'core' %}?q=${encodeURIComponent(searchInput.value)}`;
+                handleAjax(url);
+            }, 500);
+        });
+    }
+
+    // --- ОБРАБОТКА КЛИКОВ (КАТЕГОРИИ И ПАГИНАЦИЯ) ---
+    document.addEventListener('click', function(e) {
+        const targetLink = e.target.closest('.category-link-full, .page-num a, .reset-search-btn');
+        if (targetLink) {
+            e.preventDefault();
+            handleAjax(targetLink.href);
+        }
+    });
+
+    // --- ТВОЯ ГЛАВНАЯ ФУНКЦИЯ AJAX (БЕЗ ИЗМЕНЕНИЙ) ---
+    function handleAjax(url) {
+        const postsBlock = document.getElementById('posts-wrapper');
+        const catsBlock = document.getElementById('categories-wrapper');
+        
+        postsBlock.style.opacity = '0.3';
+        postsBlock.style.pointerEvents = 'none';
+
+        fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const newDoc = parser.parseFromString(html, 'text/html');
+
+            const newPostsHtml = newDoc.getElementById('posts-wrapper').innerHTML;
+            const newCatsHtml = newDoc.getElementById('categories-wrapper').innerHTML;
+
+            postsBlock.innerHTML = newPostsHtml;
+            catsBlock.innerHTML = newCatsHtml;
+
+            postsBlock.style.opacity = '1';
+            postsBlock.style.pointerEvents = 'auto';
+            
+            window.history.pushState({}, '', url);
+
+            // Скроллим вверх только если это не поиск
+            if (!event || (event.target && event.target.name !== 'q')) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })
+        .catch(err => {
+            console.error('Ошибка AJAX:', err);
+            postsBlock.style.opacity = '1';
+        });
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // --- 1. ЛОГИКА ЖИВОГО ПОИСКА ---
+    const searchInput = document.querySelector('input[name="q"]');
+    let searchTimeout;
+
+    if (searchInput) {
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                const query = searchInput.value;
+                // Формируем URL для поиска
+                const url = `{% url 'core' %}?q=${encodeURIComponent(query)}`;
+                handleAjax(url);
+            }, 500); // Задержка 0.5 сек
+        });
+    }
+
+    // --- 2. ОБРАБОТКА КЛИКОВ (AJAX) ---
+    document.addEventListener('click', function(e) {
+        const targetLink = e.target.closest('.category-link-full, .page-num a, .reset-search-btn');
+        if (targetLink) {
+            e.preventDefault();
+            handleAjax(targetLink.href);
+        }
+    });
+
+    // --- 3. ДВОЙНОЙ КЛИК ---
+    document.addEventListener('dblclick', function(e) {
+        const allCatsBtn = e.target.closest('#all-cats-btn');
+        if (allCatsBtn) {
+            e.preventDefault();
+            handleAjax("{% url 'core' %}?show_all=1");
+        }
+    });
+
+
+    
+
+    // --- 4. ГЛАВНАЯ ФУНКЦИЯ AJAX ---
+    function handleAjax(url) {
+        const postsBlock = document.getElementById('posts-wrapper');
+        const catsBlock = document.getElementById('categories-wrapper');
+        
+        postsBlock.style.opacity = '0.3';
+        postsBlock.style.pointerEvents = 'none';
+
+        fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(response => response.text())
+        .then(html => {
+            const parser = new DOMParser();
+            const newDoc = parser.parseFromString(html, 'text/html');
+
+            const newPostsHtml = newDoc.getElementById('posts-wrapper').innerHTML;
+            const newCatsHtml = newDoc.getElementById('categories-wrapper').innerHTML;
+
+            postsBlock.innerHTML = newPostsHtml;
+            catsBlock.innerHTML = newCatsHtml;
+
+            postsBlock.style.opacity = '1';
+            postsBlock.style.pointerEvents = 'auto';
+            
+            window.history.pushState({}, '', url);
+
+            // Если поиск был инициирован вводом текста, прокрутку лучше не делать,
+            // чтобы фокус не прыгал. Если кликом по категории — скроллим вверх.
+            if (!event || event.type !== 'input') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        })
+        .catch(err => {
+            console.error('Ошибка AJAX:', err);
+            postsBlock.style.opacity = '1';
+        });
+    }
+});
+</script>
+{% endblock %}

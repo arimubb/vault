@@ -1,0 +1,282 @@
+/* Базовые настройки */
+body {
+    margin: 0;
+    background-color: #050505;
+    color: white;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* --- БЛОК 1: Фиксированная подложка --- */
+.block1 {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+    overflow: hidden;
+    background: radial-gradient(circle at center, #111 0%, #050505 100%);
+}
+
+.section-1 .content {
+    text-align: center;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.seaction-h1 {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+}
+
+.seaction-p {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    color: #8a8a8e;
+    max-width: 600px;
+    margin: 0 auto 30px;
+    line-height: 1.6;
+}
+
+.section-1 h2 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 6px;
+    color: wheat;
+    opacity: 0.8;
+}
+
+/* --- БЛОК 2: Наезжающий блок --- */
+.block2 {
+    position: relative;
+    z-index: 2; /* Важно: выше чем block1 */
+    background: #0a0a0a; 
+    padding: 120px 0; /* Создает отступы, чтобы блок не был гигантским */
+    box-shadow: 0 -50px 100px rgba(0, 0, 0, 0.9);
+    border-radius: 60px 60px 0 0; /* Скругление верха */
+}
+
+.section-2 {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
+
+.content2 {
+    position: relative;
+    border-radius: 40px;
+    overflow: hidden;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    height: 700px; /* Фиксированная высота для аккуратности */
+}
+
+.image-1 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: brightness(0.7) contrast(1.1);
+    transition: transform 0.8s ease;
+}
+
+.content2:hover .image-1 {
+    transform: scale(1.05);
+}
+
+/* Тексты на картинке */
+.text-of-2section {
+    position: absolute;
+    top: 50%;
+    left: 8%;
+    transform: translateY(-50%);
+    font-family: "Cinzel", serif;
+    font-size: clamp(1.5rem, 5vw, 4rem);
+    font-weight: 900;
+    color: #fff;
+    line-height: 1;
+    text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    margin: 0;
+}
+
+.text2-of-2section {
+    position: absolute;
+    bottom: 40px;
+    right: 50px;
+    font-size: clamp(1rem, 2vw, 2rem);
+    letter-spacing: 12px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+/* --- СЕКЦИЯ 3: ГРИД И КАРТОЧКИ --- */
+.block3 {
+    background: #050505; /* Глубокий черный фон */
+    padding: 100px 0;
+    position: relative;
+    z-index: 10;
+}
+
+.h2-of-section3 {
+    text-align: center;
+    font-family: "Cinzel", serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    color: #f5deb3; /* Пшеничный акцент */
+    margin-bottom: 60px;
+    letter-spacing: 2px;
+}
+
+.container-of-block3 {
+    display: grid;
+    /* Автоматическая сетка: минимум 320px на карточку */
+grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 25px;
+}
+
+/* Ссылка-обертка */
+.container-of-block3 a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Сама карточка */
+.box {
+    position: relative;
+    height: 450px;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.box:hover {
+    transform: translateY(-15px) scale(1.02);
+    border-color: rgba(245, 222, 179, 0.3); /* Подсветка пшеничным при ховере */
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+}
+
+/* Картинка внутри */
+.image-content {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s ease;
+}
+
+.image-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.9);
+}
+
+.box:hover .image-content {
+    transform: scale(1.1);
+}
+
+/* Контент с текстом (наложение) */
+.text-content {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+    display: flex;
+    align-items: flex-end; /* Текст плавно поднимается снизу */
+    opacity: 0;
+    transition: all 0.4s ease;
+    padding: 30px;
+    transform: translateY(20px);
+}
+
+.box:hover .text-content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.text-content h2 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+    color: #f5deb3;
+}
+
+.text-content p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+}
+
+/* --- СЕКЦИЯ 4: ФИНАЛЬНЫЙ АКЦЕНТ --- */
+.section-4 {
+    position: relative;
+    padding: 150px 20px;
+    background-color: #050505;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Огромная фоновая надпись (логотип на заднем плане) */
+.wave-title {
+    font-size: clamp(5rem, 20vw, 15rem); /* Гигантский размер */
+    font-weight: 900;
+    letter-spacing: -0.05em; /* Плотное написание */
+    margin: 0;
+    line-height: 0.8;
+    
+    /* Эффект контурного текста или очень тусклого цвета */
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(116, 38, 38); /* Тонкий контур */
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    pointer-events: none;
+    text-transform: uppercase;
+}
+
+/* Основной текст поверх фонового */
+.section-4 h2 {
+    position: relative;
+    z-index: 2; /* Поверх контурного текста */
+    font-size: clamp(1.2rem, 3vw, 2.2rem);
+    font-weight: 300;
+    line-height: 1.4;
+    color: #ffffff;
+    max-width: 800px;
+    margin: 0 auto;
+    text-shadow: 0 0 20px rgba(0, 0, 0, 1); /* Чтобы текст читался идеально */
+}
+
+/* Добавим стильную черту под текстом */
+.section-4 h2::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 2px;
+    background: wheat; /* Твой фирменный цвет */
+    margin: 40px auto 0;
+    opacity: 0.6;
+}
+
+.section-4 {
+    /* ... прошлые стили ... */
+    border-radius: 80px 80px 0 0;
+    box-shadow: 0 -30px 100px rgba(0, 0, 0, 0.5);
+    margin-top: -50px; /* Немного находим на предыдущий блок */
+}

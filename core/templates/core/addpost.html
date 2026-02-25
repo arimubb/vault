@@ -1,0 +1,27 @@
+{% extends 'base_core.html' %}
+{% block content %}
+<main style="color: white">
+    <div class="addpost_cont" style="margin-top: 50px;">
+
+            <!-- Убрать margin-left из формы -->
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+{% for f in form %}
+<p>
+    <label class="form-label" for="{{ f.id_for_label }}">{{ f.label }}</label>
+    {{ f }}
+</p>
+{% if f.errors %}
+    <div class="form-error field-error">
+        {{ f.errors|striptags }}
+    </div>
+{% endif %}
+{% endfor %}
+
+    <p><button type="submit">Отправить</button></p>
+</form>
+
+    </div>
+
+</main>
+{% endblock %}

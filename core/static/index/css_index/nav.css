@@ -1,0 +1,83 @@
+/* Контейнер хедера */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    /* Эффект матового стекла */
+    background: rgba(0, 0, 0, 0.4); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 40px;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Логотип */
+.logo {
+    text-decoration: none;
+    transition: transform 0.3s ease;
+}
+
+.logo h1 {
+    margin: 0;
+    font-family: 'Cinzel', serif; /* Или ваш основной шрифт */
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+    color: #fff;
+}
+
+.logo:hover {
+    transform: scale(1.05);
+}
+
+/* Навигация (кнопки) */
+.auth {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.auth a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    padding: 10px 25px;
+    border-radius: 50px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+}
+
+/* Кнопка "Войти" — минималистичная */
+.auth a:first-child {
+    color: rgba(255, 255, 255, 0.8);
+    border: 1px solid transparent;
+}
+
+.auth a:first-child:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Кнопка "Регистрация" — акцентная */
+.auth a:last-child {
+    background: #fff;
+    color: #000;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+.auth a:last-child:hover {
+    background: #e0e0e0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}

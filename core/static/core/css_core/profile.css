@@ -1,0 +1,237 @@
+/* Основные стили страницы */
+.profile-page {
+    padding: 40px 20px;
+    min-height: 100vh;
+    background: #0f0f1b; /* Глубокий темный фон */
+}
+
+.profile-card {
+    background: linear-gradient(145deg, #131314, #16213e);
+    border-radius: 24px;
+box-shadow: 
+        15px 15px 35px rgba(0, 0, 0, 0.5),          /* Основная глубокая внешняя тень */
+        -5px -5px 15px rgba(255, 255, 255, 0.05),   /* Мягкий блик на верхнем внешнем крае */
+        inset 1px 1px 2px rgba(255, 255, 255, 0.1);  /* Тонкая грань света по самому краю */
+    
+    border: none; /* Убираем бордер, тени справятся сами */    padding: 40px;
+    max-width: 850px;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+.avatarka {
+    transition: filter 0.3s ease, transform 0.3s ease;
+    object-fit: cover;
+}
+
+/* Эффект при наведении, чтобы пользователь понимал, что на фото можно кликнуть */
+.avatar-placeholder:hover .avatarka {
+    filter: brightness(0.8);
+    transform: scale(1.02);
+}
+.profile-avatar{
+    background:#00000000;
+}
+/* Шапка профиля */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #00000000;
+
+    margin-bottom: 40px;
+    padding-bottom: 25px;
+    border-bottom: 1px solid rgba(110, 116, 124, 0.3);
+}
+.profile-header-content{
+    background: rgba(0, 0, 0, 0);
+}
+.profile-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #e2e8f0;
+    background: #00000000;
+
+    margin: 0 0 8px 0;
+}
+
+.profile-subtitle {
+    font-size: 15px;
+    background: #00000000;
+
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Аватар */
+.avatar-placeholder {
+    display: block;
+    transition: transform 0.3s ease;
+    background: #00000000;
+}
+
+.avatar-placeholder:hover {
+    transform: scale(1.05);
+}
+
+.avatarka {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #667eea;
+    box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+}
+
+/* Секции формы */
+.form-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    background: rgba(0, 0, 0, 0);
+
+}
+
+.form-section {
+    background: rgba(255, 255, 255, 0.03); /* Легкое выделение секции */
+    padding: 30px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.section-title {
+    font-size: 18px;
+    background: rgba(0, 0, 0, 0);
+
+    font-weight: 600;
+    color: #8ba3ff; /* Цвет акцента */
+    margin: 0 0 20px 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(139, 163, 255, 0.2);
+}
+.form-group{
+    background: rgba(0, 0, 0, 0);
+
+}
+
+/* Сетка полей */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    background: rgba(0, 0, 0, 0);
+
+    gap: 20px;
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.form-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #94a3b8;
+    margin-bottom: 8px;
+}
+
+/* Поля ввода */
+.input-wrapper {
+    position: relative;
+}
+
+.input-wrapper input,
+.input-wrapper select {
+    width: 100%;
+    padding: 14px 16px 14px 45px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    font-size: 15px;
+    color: #f1f5f9;
+    background: rgba(0, 0, 0, 0);
+
+    transition: all 0.3s ease;
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: #667eea;
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.15);
+}
+
+.input-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    opacity: 0.6;
+}
+
+/* Кнопка смены пароля */
+.p-change {
+    margin-top: 15px;
+    text-align: right; /* Прижали к правому краю секции */
+}
+
+.a-change {
+    display: inline-block;
+    padding: 8px 20px;
+    background: rgba(102, 126, 234, 0.1);
+    color: #8ba3ff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    border-radius: 10px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    transition: 0.3s;
+}
+
+.a-change:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* Кнопки действий */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 40px;
+    padding-top: 25px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 14px 32px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(102, 126, 234, 0.2);
+}
+
+/* Дата рождения */
+.input-wrapper-date {
+    display: flex;
+    gap: 8px;
+}
+
+.input-wrapper-date select {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    color: white;
+    padding: 10px;
+    flex: 1;
+}
+
+/* Уведомления */
+.notifications-box {
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}

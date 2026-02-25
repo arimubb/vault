@@ -1,0 +1,141 @@
+{% extends 'base_index.html' %}
+{% block content %}
+<div class="block1">
+  <section class="section section-1" id="section1">
+    <div class="content">
+      <h1 class="seaction-h1">Vault — ваше пространство для мыслей и новостей.</h1>
+      <p class="seaction-p">
+        Безопасная внутренняя сеть, где рождаются идеи и укрепляются связи.
+      </p>
+      <h2>VAULT: Делитесь • Храните • Управляйте</h2>
+    </div>
+  </section>
+</div>
+
+<div class="block2">
+  <div class="section section-2" id="section2">
+    <div class="content2">
+      <div class="image-container">
+        <img class="image-1" src="/static/index/images/1.JPG" alt="Knight Concept" />
+        
+        <h2 class="text-of-2section">
+          KNIGHT ON A<br>WHITE HORSE
+        </h2>
+        
+        <h2 class="text2-of-2section">VΛULT</h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Третий блок - статичный -->
+<div class="block3">
+  <div class="section section-3">
+    <div class="content">
+      <h2 class="h2-of-section3">Что ждет вас в VAULT?</h2>
+      
+      <div class="container-of-block3">
+        
+        <a href="{% url 'users:login' %}">
+          <div class="box">
+            <div class="image-content">
+              <img src="/static/index/images/2.JPG" alt="Знания">
+            </div>
+            <div class="text-content">
+              <div>
+                <h2>🔒 Знания в движении</h2>
+                <p>Следите за актуальными постами и объявлениями от руководства и коллег. Будьте в курсе всего.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'users:login' %}">
+          <div class="box">
+            <div class="image-content">
+              <img src="/static/index/images/3.JPG" alt="Голос">
+            </div>
+            <div class="text-content">
+              <div>
+                <h2>📸 Голос каждого важен</h2>
+                <p>Комментируйте, задавайте вопросы, делитесь мнением. Ваша идея может изменить всё.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'users:login' %}">
+          <div class="box">
+            <div class="image-content">
+              <img src="/static/index/images/4.JPG" alt="Поиск">
+            </div>
+            <div class="text-content">
+              <div>
+                <h2>⚙️ Поиск и открытия</h2>
+                <p>Находите информацию по тегам и проектам. Vault — это растущая база знаний вашей команды.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+        <a href="{% url 'users:login' %}">
+          <div class="box">
+            <div class="image-content">
+              <img src="/static/index/images/5.JPG" alt="Безопасность">
+            </div>
+            <div class="text-content">
+              <div>
+                <h2>✨ Безопасная среда</h2>
+                <p>Закрытая корпоративная сеть. Делитесь мыслями свободно и конфиденциально.</p>
+              </div>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="section section-4">
+    <h1 class="wave-title">VΛULT</h1>
+    
+    <div class="content">
+        <h2>
+            Присоединяйтесь к VAULT и начните создавать свою коллекцию 
+            незабываемых визуальных историй уже сегодня.
+        </h2>
+    </div>
+</div>
+
+
+
+<script>
+window.addEventListener('scroll', function() {
+    const block1 = document.querySelector('.block1');
+    const block2 = document.querySelector('.block2');
+    
+    // Получаем позицию второго блока относительно верха экрана
+    const block2Top = block2.getBoundingClientRect().top;
+    const windowHeight = window.innerHeight;
+
+    if (block2Top < windowHeight) {
+        // Вычисляем процент того, насколько block2 перекрыл экран
+        // 1 - когда block2 только появился снизу
+        // 0 - когда block2 полностью закрыл собой block1
+        let percentage = block2Top / windowHeight;
+
+        if (percentage < 0) percentage = 0;
+
+        // Управляем прозрачностью и масштабом первого блока
+        block1.style.opacity = percentage;
+        block1.style.transform = `scale(${0.8 + (percentage * 0.2)})`;
+    } else {
+        block1.style.opacity = 1;
+        block1.style.transform = `scale(1)`;
+    }
+});
+</script>
+
+{% endblock %}

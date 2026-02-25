@@ -1,0 +1,20 @@
+{% extends 'base_core.html' %}
+{% block content %}
+<div class="reg-container">
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="next" id="" value="{{ next }}">
+
+    {% for f in form %}
+    <p>
+        <!-- Исправить: убрать лишний for="form-label" -->
+        <label class="form-label-log" for="{{ f.id_for_label }}">{{ f.label }}</label>
+        {{ f }}
+    </p>
+    <div class="form-error field-error">{{ f.errors }}</div>
+    {% endfor %}    <p><button class="login-btn" type="submit">Регистрация</button></p>
+</form>
+</div>
+
+
+{% endblock %}

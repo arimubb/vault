@@ -1,0 +1,124 @@
+/* Общий контейнер — глубокий темный фон */
+.log-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0f111a; /* Насыщенный темный */
+    background-image: radial-gradient(circle at center, #1e2235 0%, #0f111a 100%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    padding: 20px;
+}
+
+/* Карточка формы */
+.auth-form {
+    background: #161b22;
+    border: 1px solid #30363d;
+    padding: 40px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Заголовки (Labels) */
+.form-label-log {
+    display: block;
+    background: #00000000;
+    color: #8b949e;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    transition: color 0.2s;
+}
+
+/* Поля ввода */
+.auth-form input {
+    width: 100%;
+    background-color: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 6px;
+    padding: 12px 16px;
+    color: #c9d1d9;
+    font-size: 16px;
+    transition: all 0.2s ease-in-out;
+    box-sizing: border-box;
+    margin-bottom: 5px;
+}
+
+/* Эффект при клике на поле */
+.auth-form input:focus {
+    outline: none;
+    border-color: #58a6ff;
+    background-color: #0d1117;
+    box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.15);
+}
+
+/* Кнопка — строгая и контрастная */
+.login-btn {
+    width: 100%;
+    background-color: #238636; /* Зеленый "акцент" как на GitHub */
+    color: #ffffff;
+    padding: 12px;
+    border: 1px solid rgba(240, 246, 252, 0.1);
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+}
+
+.login-btn:hover {
+    background-color: #2ea043;
+}
+
+.login-btn:active {
+    background-color: #238636;
+    transform: scale(0.98);
+}
+
+/* Ссылка восстановления */
+.login-a {
+    display: block;
+    text-align: center;
+    color: #58a6ff;
+    text-decoration: none;
+    font-size: 13px;
+    margin-top: 20px;
+    opacity: 0.8;
+}
+
+.login-a:hover {
+    text-decoration: underline;
+    opacity: 1;
+}
+
+/* Ошибки — красный, но приглушенный */
+.form-error {
+    background: rgba(248, 81, 73, 0.1);
+    border: 1px solid rgba(248, 81, 73, 0.4);
+    color: #f85149;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 15px;
+    list-style: none;
+}
+
+/* Убираем стандартные отступы Django <p> внутри формы */
+.auth-form p {
+    margin: 0 0 20px 0;
+}
+
+/* Убираем маркеры списка ошибок внутри красных блоков */
+.form-error ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Если блок пустой, на всякий случай скрываем его совсем */
+.form-error:empty {
+    display: none;
+}

@@ -1,0 +1,150 @@
+html{
+    padding: 0;
+    margin: 0;
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+}
+
+@keyframes stars {
+    0%, 100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Добавляем больше звезд для лучшего эффекта */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(2px 2px at 20px 30px, #eee, transparent),
+        radial-gradient(2px 2px at 40px 70px, #fff, transparent),
+        radial-gradient(1px 1px at 90px 40px, #ddd, transparent),
+        radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 160px 30px, #eee, transparent),
+        radial-gradient(1px 1px at 200px 60px, #fff, transparent),
+        radial-gradient(2px 2px at 240px 90px, #eee, transparent),
+        radial-gradient(1px 1px at 280px 20px, #ddd, transparent),
+        radial-gradient(2px 2px at 320px 70px, #fff, transparent),
+        radial-gradient(1px 1px at 360px 40px, #eee, transparent),
+        radial-gradient(2px 2px at 400px 80px, #ddd, transparent),
+        radial-gradient(1px 1px at 440px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 480px 60px, #eee, transparent),
+        radial-gradient(1px 1px at 520px 90px, #ddd, transparent),
+        radial-gradient(1px 1px at 60px 120px, #fff, transparent),
+        radial-gradient(2px 2px at 80px 180px, #eee, transparent),
+        radial-gradient(1px 1px at 120px 90px, #ddd, transparent),
+        radial-gradient(2px 2px at 150px 150px, #fff, transparent),
+        radial-gradient(1px 1px at 180px 200px, #eee, transparent),
+        radial-gradient(2px 2px at 220px 120px, #ddd, transparent),
+        radial-gradient(1px 1px at 260px 180px, #fff, transparent),
+        radial-gradient(2px 2px at 300px 80px, #eee, transparent),
+        radial-gradient(1px 1px at 340px 140px, #ddd, transparent),
+        radial-gradient(2px 2px at 380px 220px, #fff, transparent),
+        radial-gradient(1px 1px at 420px 100px, #eee, transparent),
+        radial-gradient(2px 2px at 460px 160px, #ddd, transparent),
+        radial-gradient(1px 1px at 500px 240px, #fff, transparent),
+        radial-gradient(2px 2px at 540px 110px, #eee, transparent),
+
+        /* Новые строки звезд */
+        radial-gradient(1px 1px at 10px 250px, #fff, transparent),
+        radial-gradient(2px 2px at 50px 300px, #eee, transparent),
+        radial-gradient(1px 1px at 90px 350px, #ddd, transparent),
+        radial-gradient(2px 2px at 130px 280px, #fff, transparent),
+        radial-gradient(1px 1px at 170px 320px, #eee, transparent),
+        radial-gradient(2px 2px at 210px 380px, #ddd, transparent),
+        radial-gradient(1px 1px at 250px 260px, #fff, transparent),
+        radial-gradient(2px 2px at 290px 340px, #eee, transparent),
+        radial-gradient(1px 1px at 330px 290px, #ddd, transparent),
+        radial-gradient(2px 2px at 370px 360px, #fff, transparent),
+        radial-gradient(1px 1px at 410px 270px, #eee, transparent),
+        radial-gradient(2px 2px at 450px 310px, #ddd, transparent),
+        radial-gradient(1px 1px at 490px 390px, #fff, transparent),
+        radial-gradient(2px 2px at 530px 330px, #eee, transparent),
+
+        /* Еще больше звезд */
+        radial-gradient(1px 1px at 70px 420px, #ddd, transparent),
+        radial-gradient(2px 2px at 110px 480px, #fff, transparent),
+        radial-gradient(1px 1px at 150px 440px, #eee, transparent),
+        radial-gradient(2px 2px at 190px 500px, #ddd, transparent),
+        radial-gradient(1px 1px at 230px 460px, #fff, transparent),
+        radial-gradient(2px 2px at 270px 520px, #eee, transparent),
+        radial-gradient(1px 3px at 310px 490px, #ddd, transparent),
+        radial-gradient(2px 2px at 350px 550px, #fff, transparent),
+        radial-gradient(2px 1px at 390px 510px, #eee, transparent),
+        radial-gradient(2px 2px at 430px 470px, #ddd, transparent),
+        radial-gradient(3px 1px at 470px 530px, #fff, transparent),
+        radial-gradient(2px 2px at 510px 450px, #eee, transparent),
+        radial-gradient(1px 1px at 550px 490px, #ddd, transparent),
+        radial-gradient(3px 2px at 590px 540px, #fff, transparent),
+
+        /* Дополнительные звезды для плотности */
+        radial-gradient(1px 1px at 30px 580px, #eee, transparent),
+        radial-gradient(4px 4px at 70px 620px, #ddd, transparent),
+        radial-gradient(1px 1px at 110px 590px, #fff, transparent),
+        radial-gradient(2px 2px at 150px 640px, #eee, transparent),
+        radial-gradient(1px 1px at 190px 600px, #ddd, transparent),
+        radial-gradient(2px 2px at 230px 660px, #fff, transparent),
+        radial-gradient(1px 1px at 270px 580px, #eee, transparent),
+        radial-gradient(2px 2px at 310px 630px, #ddd, transparent),
+        radial-gradient(1px 1px at 350px 670px, #fff, transparent),
+        radial-gradient(2px 2px at 390px 610px, #eee, transparent),
+        radial-gradient(1px 1px at 430px 650px, #ddd, transparent),
+        radial-gradient(2px 2px at 470px 590px, #fff, transparent),
+        radial-gradient(1px 1px at 510px 680px, #eee, transparent),
+        radial-gradient(2px 2px at 550px 620px, #ddd, transparent),
+
+        /* Звезды в правой части */
+        radial-gradient(1px 1px at 600px 50px, #fff, transparent),
+        radial-gradient(2px 2px at 640px 100px, #eee, transparent),
+        radial-gradient(1px 1px at 680px 30px, #ddd, transparent),
+        radial-gradient(2px 2px at 720px 80px, #fff, transparent),
+        radial-gradient(1px 1px at 760px 120px, #eee, transparent),
+        radial-gradient(2px 2px at 800px 60px, #ddd, transparent),
+        radial-gradient(1px 1px at 840px 140px, #fff, transparent),
+        radial-gradient(2px 2px at 880px 90px, #eee, transparent),
+        radial-gradient(1px 1px at 920px 160px, #ddd, transparent),
+        radial-gradient(2px 2px at 960px 110px, #fff, transparent),
+        radial-gradient(1px 1px at 1000px 180px, #eee, transparent),
+        radial-gradient(2px 2px at 1040px 70px, #ddd, transparent),
+        radial-gradient(1px 1px at 1080px 130px, #fff, transparent),
+        radial-gradient(2px 2px at 1120px 190px, #eee, transparent),
+
+        /* Правый верхний угол */
+        radial-gradient(1px 1px at 650px 250px, #ddd, transparent),
+        radial-gradient(2px 2px at 690px 300px, #fff, transparent),
+        radial-gradient(1px 1px at 730px 220px, #eee, transparent),
+        radial-gradient(2px 2px at 770px 280px, #ddd, transparent),
+        radial-gradient(1px 1px at 810px 320px, #fff, transparent),
+        radial-gradient(2px 2px at 850px 260px, #eee, transparent),
+        radial-gradient(1px 1px at 890px 340px, #ddd, transparent),
+        radial-gradient(2px 2px at 930px 290px, #fff, transparent),
+        radial-gradient(1px 1px at 970px 360px, #eee, transparent),
+        radial-gradient(2px 2px at 1010px 310px, #ddd, transparent),
+        radial-gradient(1px 1px at 1050px 380px, #fff, transparent),
+        radial-gradient(2px 2px at 1090px 330px, #eee, transparent),
+        radial-gradient(1px 1px at 1130px 400px, #ddd, transparent),
+        radial-gradient(2px 2px at 1170px 350px, #fff, transparent);
+        
+    background-size: 550px 550px;
+    animation: stars2 5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes stars2 {
+    0%, 100% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 1;
+    }
+}

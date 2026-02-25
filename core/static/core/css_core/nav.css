@@ -1,0 +1,215 @@
+/* Основной контейнер хедера */
+.header2 {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    
+    /* 1. Делаем фон более прозрачным и чистым */
+    background: rgba(25, 27, 31, 0.4); 
+    
+    /* 2. Блюр (обязательно два варианта для поддержки всех браузеров) */
+    -webkit-backdrop-filter: blur(15px); /* Для Safari и iOS */
+    backdrop-filter: blur(15px); 
+    
+    /* 3. Тонкая светлая граница сверху создает эффект грани стекла */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    
+    /* 4. Мягкая тень */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+.ff{
+    background: #484f5800;
+}
+
+.header-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+        /* 2. Блюр (обязательно два варианта для поддержки всех браузеров) */
+    -webkit-backdrop-filter: blur(15px); /* Для Safari и iOS */
+    backdrop-filter: blur(15px); 
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+    /* Убедись, что здесь НЕТ фона, иначе он перекроет блюр хедера */
+    background: transparent; 
+}
+
+/* Блок пользователя слева */
+.user-inf {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 6px 18px 6px 6px;
+    height: 46px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.user-inf:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #58a6ff;
+    transform: translateY(-1px);
+}
+
+.avatarka2 {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #58a6ff;
+}
+
+/* Уведомления */
+.notif-a {
+    position: relative;
+    text-decoration: none;
+    margin-left: 10px;
+    background: #00000000;
+
+}
+
+.notif-h2 {
+    font-size: 22px;
+    margin: 0;
+    background: #00000000;
+}
+
+.notif-badge {
+    position: absolute;
+    top: -5px;
+    right: -8px;
+    background: #f85149;
+    color: white;
+    font-size: 10px;
+    font-weight: 800;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #0d1117;
+}
+
+.notif-badge.zero {
+    background: #484f58;
+}
+
+/* Правая часть: Домик и Выход */
+.header-container div[style*="display: flex"] {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Расстояние между кнопками */
+}
+
+/* Кнопка ДОМОЙ */
+.logo {
+    text-decoration: none;
+    background: #00000000;
+
+}
+
+.logo-h1 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #58a6ff;
+    font-size: 24px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Убираем старый псевдоэлемент, если он остался в кэше */
+.logo h1::before {
+    display: none !important;
+}
+
+.logo:hover .logo-h1 {
+    background: rgba(88, 166, 255, 0.1);
+    border-color: #58a6ff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(88, 166, 255, 0.2);
+}
+
+/* Кнопка ВЫЙТИ */
+.header-container a[href*="logout"] {
+    text-decoration: none;
+    color: #f85149;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 12px;
+    background: rgba(248, 81, 73, 0.08);
+    border: 1px solid rgba(248, 81, 73, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.header-container a[href*="logout"]:hover {
+    background: #f85149;
+    color: #ffffff;
+    border-color: #f85149;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 81, 73, 0.3);
+}
+
+/* Логотип VΛULT для гостей */
+.h1-logo {
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 5px;
+    background: #00000000;
+
+}
+
+/* Кнопки авторизации для гостей */
+.auth {
+    display: flex;
+    gap: 10px;
+}
+
+.auth a {
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 22px;
+    border-radius: 10px;
+    transition: all 0.2s;
+}
+
+.auth a:first-child { /* Войти */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.auth a:last-child { /* Регистрация */
+    background: #fff;
+    color: #000;
+}
+
+.auth a:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.1);
+}

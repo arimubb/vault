@@ -1,0 +1,75 @@
+
+{% load coretags %}
+<div class="comment">
+
+    <!-- ШАПКА -->
+    <div class="com-head">
+                                    <a class="name" href="{% url 'user_posts' comment.author.username %}" style="text-decoration:none;color:wheat;"> 
+
+        <div class="user-pro-cont">
+            {% if comment.author.photo %}
+                <img class="avatarka-core-com" src="{{ comment.author.photo.url }}" alt="">
+            {% else %}
+                <img class="avatarka-core-com" src="/media/users/default.png" alt="">
+            {% endif %}
+            <p class="name">{{ comment.author.username }}</p>
+
+        </div>
+                                    </a> 
+
+        <div class="line">
+            <div class="comment-menu">
+                <div class="burger"></div>
+
+                <div class="dropdown">
+                    <button 
+                        class="reply-btn"
+                        data-id="{{ comment.id }}"
+                        data-username="{{ comment.author.username }}">
+                        Ответить
+                    </button>
+
+                    {% if user == comment.author or user.is_superuser or user == post.author %}
+                        <a href="{% url 'delete_comment' comment.id %}"
+                           class="delete-comment-btn"
+                           data-id="{{ comment.id }}">
+                           Удалить
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ТЕКСТ -->
+<p>{{ comment.content|highlight_mention|linebreaks }}</p>
+    {% if comment.parent %}
+        <p class="reply-info">
+        </p>
+    {% endif %}
+
+    <small style="display:flex; justify-content:end;">
+        {{ comment.time_create|date:"d.m.Y H:i" }}
+    </small>
+
+    <!-- КНОПКИ -->
+    <div class="btns">
+        <button class="like-btn" data-id="{{ comment.id }}"> 
+            <span id="likes-{{ comment.id }}">
+                {% if comment.total_likes >= 1 %}
+                    ❤️{{ comment.total_likes }}
+                {% endif %}
+            </span>
+        </button>
+
+        <span class="heart-animation" style="display:none;">❤️</span>
+    </div>
+
+</div>
+
+<!-- 🔥 ВАЖНО: ВЛОЖЕННЫЕ ОТВЕТЫ ВНЕ КНОПОК -->
+{% for reply in comment.replies.all %}
+    <div class="reply">
+        {% include 'core/includes/comment.html' with comment=reply %}
+    </div>
+{% endfor %}

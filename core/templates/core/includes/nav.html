@@ -1,0 +1,52 @@
+<header class="header2">
+    
+    <div class="header-container" >
+        
+        {% if user.is_authenticated %}
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;" class="ff" >
+<div style="display: flex;     background: #62696f00;
+" >
+            <a href="{% url 'users:profile' %}" class="user-inf" >                        {% if user.photo %}
+                            <img class="avatarka2" src="{{ user.photo.url }}" alt="">
+                        {% else %}
+                            <img class="avatarka2" src="/media/users/default.png" alt="">
+                        {% endif %}{{user.username}} </a>
+
+                                    <a class="notif-a {% if user.unread_notifications_count > 0 %}has-notifications{% endif %}" href="{% url 'notifications' %}">
+    <h2 class="notif-h2">
+        🔔
+        {% if user.unread_notifications_count > 0 %}
+            <span class="notif-badge">{{ user.unread_notifications_count }}</span>
+        {% else %}
+            <span class="notif-badge zero">{{ user.unread_notifications_count }}</span>
+        {% endif %}
+    </h2>
+</a>
+
+</div>
+
+
+<div style="display: flex;     background: #62696f00;
+">
+
+            <a href="/core" class="logo"><h1 class="logo-h1">⌂</h1></a>
+            <a href="{% url 'users:logout' %}">Выйти</a>
+</div>
+        </div>
+
+
+
+        {% else %}
+        <a href="/" class="h1-logo"><h1 class="h1-logo">VΛULT</h1></a>
+            <nav class="auth">
+                {% if request.path != '/users/login/' and request.path != '/login/' %}
+                    <a class="log-in-out" href="{% url 'users:login' %}">Войти</a>
+                            {% endif %}
+
+                {% if request.path != '/users/register/' and request.path != '/register/' %}
+                <a class="log-in-out" href="{% url 'users:register' %}">Регистрация</a>
+                {% endif %}
+        {% endif %}
+            </nav>
+    </div>
+</header>

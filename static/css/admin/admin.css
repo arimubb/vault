@@ -1,0 +1,108 @@
+#header, .module caption{
+    background-color: rgb(72, 86, 190);
+}
+
+div.breadcrumbs{
+        background: gray;
+}
+#changelist-filter-header{
+        background: gray;
+
+}
+#main{
+        background-image: url('/static/core/images/mainWallpaper.jpg');
+    background-size: cover;
+
+}
+caption{
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 30px;
+}
+#content {
+    display: block;
+    margin: 40px auto;           /* центрирует по горизонтали, отступы сверху/снизу */
+    max-width: 920px;             /* ограничивает ширину */
+    padding: 40px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    
+    /* Стили оформления */
+    border-radius: 20px;
+    border: 1px solid rgba(74, 110, 224, 0.3);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 30px rgba(74, 110, 224, 0.1);
+    
+    /* Текст */
+    color: #e2e8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    
+    /* Анимация */
+    transition: all 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+#content-related .module {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+#recent-actions-module{
+    position: absolute;
+    left: 30px;
+    top: -85px;
+    border-radius: 20px;
+    border: 1px solid rgba(74, 110, 224, 0.3);
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 30px rgba(74, 110, 224, 0.1);
+    
+    /* Текст */
+    color: #e2e8f0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    
+    /* Анимация */
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+/* Декоративный элемент */
+
+
+/* Эффект при наведении */
+#content:hover {
+    transform: translateY(-8px);
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 40px rgba(74, 110, 224, 0.2);
+    border-color: rgba(74, 110, 224, 0.5);
+
+}
+#content-related .module:hover{
+    box-shadow: 
+        0 25px 50px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+        0 0 40px rgba(74, 110, 224, 0.2);
+    border-color: rgba(74, 110, 224, 0.5);
+}
+
+
+@keyframes shine {
+    0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+    100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Для внутренних элементов */
+#content h1, #content h2, #content h3 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+.module h2{
+    color: #ffffff;
+    
+}
+
+#content p {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    opacity: 0.9;
+}

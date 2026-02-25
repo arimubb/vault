@@ -1,0 +1,705 @@
+/* Фоновая настройка всей страницы */
+.body {
+    background: #000;
+    min-height: 100vh;
+    padding-bottom: 50px;
+}
+
+
+*{
+padding: 0;
+background: black;
+margin: 0;
+font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+.body{
+color: white;
+margin: 0;
+padding: 0;
+background: black;
+
+/* Основной контейнер карточки */
+.content {
+    display: flex;
+    flex-direction: column;
+    height: 450px; /* Фиксируем высоту карточек, чтобы сетка была ровной */
+    background: #000;
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+/* Центрирующая зона для фото или файла */
+.post-media-area {
+    flex-grow: 1; /* Занимает всё пространство, толкая текст вниз */
+    display: flex;
+    align-items: center; /* Центр по вертикали */
+    justify-content: center; /* Центр по горизонтали */
+    background: rgba(255, 255, 255, 0.03); /* Легкий фон для пустых зон */
+    overflow: hidden;
+}
+
+/* Картинка: полностью видна (contain) */
+.thumb-contain {
+    max-width: 100%;
+    object-fit: cover; /* Видна полностью, не обрезается */
+}
+
+/* Файл по центру */
+.file-center-badge {
+    padding: 20px;
+    text-align: center;
+}
+
+
+.file-p {
+    background: rgba(176, 147, 251, 0.1);
+    border: 1px dashed #b093fb;
+    padding: 10px 15px;
+    border-radius: 12px;
+    color: wheat;
+    word-break: break-all;
+}
+
+/* Делаем родителя контейнером для абсолютной ссылки */
+
+
+/* Базовый контейнер кнопки */
+.category-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 120px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0 20px;
+    opacity: 1 !important; /* Отменяем opacity: 0 из анимации для надежности */
+}
+
+/* Эффект при наведении на неактивные */
+.category-item:not(.selected):hover {
+    background: rgba(176, 147, 251, 0.15);
+    border-color: #b093fb;
+    transform: translateY(-2px);
+}
+
+/* СТИЛЬ ДЛЯ ВЫДЕЛЕННОЙ КНОПКИ */
+.category-item.selected {
+    background: #b093fb !important;
+    border-color: #b093fb !important;
+    color: white !important;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(176, 147, 251, 0.4);
+    cursor: default;
+}
+
+/* Текст внутри выделенной кнопки */
+.category-item.selected span {
+    background: transparent;
+}
+
+/* Ссылка внутри неактивной кнопки */
+.category-link-full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: wheat !important;
+    background: transparent !important;
+    z-index: 5;
+}
+/* Растягиваем ссылку на весь li */
+.category-link-full {
+    color: wheat !important;
+    text-decoration: none;
+    background: none !important; /* Убираем фон у самой ссылки */
+}
+
+/* Псевдоэлемент, который расширяет зону клика на весь li */
+.category-link-full::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50px; /* Чтобы зона клика не вылезала за скругления li */
+}
+
+/* Ховер эффект теперь на li, так как ссылка внутри */
+.category-item:hover {
+    background: rgba(176, 147, 251, 0.2);
+    border-color: #b093fb;
+}
+
+/* Зона текста всегда внизу */
+.post-info-area {
+    padding: 15px 20px;
+    background: #000; /* Чтобы текст не накладывался на медиа-фон */
+}
+
+.post-title {
+    margin: 0 0 5px 0;
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.post-content {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #8b949e;
+}
+
+/* Панель автора (самый низ) */
+.article-panel {
+    margin-top: auto; /* На всякий случай прижимаем */
+}
+
+}
+/* --- КАТЕГОРИИ (Верхняя панель) --- */
+.categories-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin: 30px auto;
+    padding: 10px;
+}
+
+/* Анимация для всего контейнера категорий */
+/* Контейнер категорий */
+.categories-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 20px 0;
+    list-style: none;
+}
+
+/* Сами кнопки */
+.categories-list li {
+    opacity: 0; /* Изначально невидимы */
+    animation: smoothReveal 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+/* Зона заглушки */
+.no-media-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    height: 200px;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.2); /* Тусклый цвет, чтобы не "кричало" */
+    font-family: sans-serif;
+}
+
+.placeholder-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+    opacity: 0.7;
+}
+
+.no-media-placeholder p {
+    margin: 0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Наведение на карточку без фото */
+.content:hover .no-media-placeholder {
+    color: rgba(176, 147, 251, 0.5); /* При наведении иконка чуть подсвечивается фиолетовым */
+    transition: 0.3s;
+}
+
+.content:hover .placeholder-icon{
+    opacity: 1;
+}
+
+/* Напоминание: для .post-media-area обязательно оставь центрирование из прошлого шага */
+.post-media-area {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.02);
+    min-height: 200px; /* Чтобы карточка не схлопывалась */
+}
+/* Задержка для каждой кнопки (каскад) */
+.categories-list li:nth-child(1) { animation-delay: 0.1s; }
+.categories-list li:nth-child(2) { animation-delay: 0.15s; }
+.categories-list li:nth-child(3) { animation-delay: 0.2s; }
+.categories-list li:nth-child(4) { animation-delay: 0.25s; }
+.categories-list li:nth-child(5) { animation-delay: 0.3s; }
+.categories-list li:nth-child(6) { animation-delay: 0.35s; }
+.categories-list li:nth-child(n+7) { animation-delay: 0.4s; } /* Для всех последующих */
+
+@keyframes smoothReveal {
+    from {
+        opacity: 0;
+        transform: translateY(15px) scale(0.95);
+        filter: blur(5px); /* Добавим легкое размытие при появлении */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+#posts-wrapper, #categories-wrapper {
+    transition: opacity 0.3s ease-in-out;
+}
+
+/* Когда контент вставился, срабатывает твоя анимация из предыдущего шага */
+#posts-wrapper .content {
+    animation: fadeInScale 0.5s ease forwards;
+}
+.category-item, .categories-list li {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 12px 20px;
+    border-radius: 50px;
+    transition: 0.3s;
+}
+
+.categories-list li.selected {
+    background: #b093fb; /* Цвет кнопки "Назад" */
+    color: white;
+    cursor: pointer;
+    border-color: #b093fb;
+}
+
+.category-link:hover {
+    color: #fff !important;
+}
+
+.category-link {
+    color: #fff !important;
+    background-color: #00000000;
+}
+
+
+.category-item:hover {
+    background: rgba(176, 147, 251, 0.2);
+    border-color: #b093fb;
+}
+
+/* Кнопка добавить пост (+) */
+.addpost {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #b093fb, #5769f5);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 0 5px 15px rgba(176, 147, 251, 0.4);
+    transition: 0.3s;
+}
+
+.addpost:hover {
+    transform: rotate(90deg) scale(1.1);
+}
+
+
+
+/* --- СЕТКА КАРТОЧЕК --- */
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); /* Авто-сетка */
+    gap: 30px;
+    max-width: 1200px;  
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.post-a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.content {
+    background: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px;
+    padding: 0; /* Чтобы картинка прилегала к краям сверху */
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.content:hover {
+    transform: translateY(-10px);
+    border-color: rgba(176, 147, 251, 0.5);
+    box-shadow: 0 15px 40px rgba(176, 147, 251, 0.15);
+}
+
+/* Превью изображения */
+.core-img.thumb {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Заголовок и текст внутри карточки */
+.content h2.post-title {
+    padding: 20px 20px 10px;
+    margin: 0;
+    font-size: 1.4rem;
+    color: #fff;
+}
+
+.content .post-content {
+    padding: 0 20px 20px;
+    color: #8b949e;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+/* Информационная панель внизу карточки */
+.article-panel {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.article-panel .first {
+    font-size: 0.85rem;
+    color: wheat;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #00000000;
+    margin: 0;
+}
+
+.article-panel .last {
+    font-size: 0.8rem;
+    background-color: #00000000;
+
+    color: #58a6ff;
+    margin: 0;
+}
+
+/* Аватарка в списке */
+.avatarka-core {
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* --- ПАГИНАЦИЯ (Нижняя навигация) --- */
+.list-pages ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 10px;
+    margin-top: 50px;
+}
+
+.page-num {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.3s;
+}
+
+.page-num a {
+    color: #fff;
+    text-decoration: none;
+    width: 100%;
+    background: #00000000;
+    text-align: center;
+}
+
+.page-num-selcted {
+    background: #b093fb;
+    border-color: #b093fb;
+    font-weight: bold;
+}
+
+.page-num:hover:not(.page-num-selcted) {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+/* Превью изображения */
+.core-img.thumb {
+    width: 100%;
+    height: 250px; /* Увеличил высоту, чтобы фото выглядело солиднее */
+    background-color: rgba(57, 40, 58, 0.569);
+    /* object-fit: cover — фото заполняет всю область, лишнее аккуратно обрезается, 
+       но пустых мест по бокам не будет. Это самый красивый вариант для сеток. */
+    object-fit: cover; 
+    
+    /* Если же ты хочешь, чтобы фото было ВИДНО ПОЛНОСТЬЮ без обрезки, 
+       замени "cover" на "contain", но тогда по бокам могут быть пустые полосы. 
+       Я рекомендую "cover" для твоего стиля. */
+       
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: block; /* Убирает лишние отступы снизу */
+    transition: transform 0.5s ease;
+}
+
+/* Эффект при наведении именно на картинку внутри карточки */
+.content:hover .core-img.thumb {
+    transform: scale(1.05); /* Картинка чуть-чуть увеличивается внутри при наведении */
+}
+
+.category-item:first-child:hover::after {
+    content: 'Double click to show all';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    white-space: nowrap;
+}
+
+
+
+
+
+
+
+
+
+/* Убираем контейнеры и делаем акцент на пустоте */
+.search-section {
+    display: flex;
+    justify-content: center;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 450px; /* Еще компактнее */
+}
+
+.search-inner {
+    display: flex;
+    align-items: center;
+    background: transparent; /* Убираем фон совсем */
+    padding: 4px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+
+
+/* Инпут: чистый текст */
+.search-inner input {
+    flex: 1;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    color: #fff !important;
+    font-size: 0.9rem;
+    font-weight: 300; /* Тонкий шрифт для легкости */
+    letter-spacing: 0.5px;
+}
+
+.search-inner input::placeholder {
+    color: rgba(255, 255, 255, 0.338);
+    font-weight: 300;
+}
+
+/* Крестик сброса: просто символ без фона */
+.clear-search {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.9rem;
+    margin-left: 10px;
+    transition: 0.2s;
+}
+
+.clear-search:hover {
+    color: #b093fb;
+}
+
+/* Убираем синее выделение в Safari на мобилках */
+input {
+    -webkit-tap-highlight-color: transparent;
+}
+
+
+
+
+
+/* Контейнер заглушки */
+.no-results {
+    grid-column: 1 / -1; /* Растягиваем на всю сетку постов */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 80px 20px;
+    text-align: center;
+    animation: fadeInEmpty 0.6s ease-out;
+}
+
+.no-results-content {
+    max-width: 450px;
+}
+
+/* Иконка спутника */
+.no-results-icon {
+    font-size: 64px;
+    margin-bottom: 25px;
+    display: inline-block;
+}
+
+/* Заголовок */
+.no-results h3 {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+/* Текст описания */
+.no-results p {
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Выделение поискового запроса */
+.no-results p span {
+    color: #b093fb;
+    font-weight: 500;
+    padding: 2px 6px;
+    background: rgba(176, 147, 251, 0.1);
+    border-radius: 6px;
+}
+
+/* Кнопка сброса */
+.reset-search-btn {
+    display: inline-block;
+    padding: 12px 28px;
+    background: rgba(176, 147, 251, 0.05);
+    border: 1px solid rgba(176, 147, 251, 0.3);
+    color: #b093fb;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.reset-search-btn:hover {
+    background: #b093fb;
+    color: #000;
+    box-shadow: 0 0 25px rgba(176, 147, 251, 0.3);
+    transform: translateY(-2px);
+}
+
+/* АНИМАЦИИ */
+
+/* Плавное появление всего блока */
+@keyframes fadeInEmpty {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Контейнер управления — всегда прижат к углу */
+.pin-management-layer {
+    position: absolute;
+    top: 12px;
+    right: 12px; /* Поставил справа, чтобы не перекрывало аватарку если что */
+    z-index: 1000; /* Максимальный приоритет */
+    display: flex;
+    flex-direction: row-reverse; /* Значок будет крайним справа, кнопка слева от него */
+    align-items: center;
+    gap: 8px;
+    pointer-events: auto; 
+}
+
+/* Иконка булавки (Индикатор) — ВИДЕН ВСЕГДА */
+.pin-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.5) !important; /* Темный фон для контраста */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(176, 147, 251, 0.6); 
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    
+    /* Анимация работает всегда */
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Кнопка управления (Закрепить/Открепить) — ВИДНА ТОЛЬКО ПРИ ХОВЕРЕ */
+.pin-button {
+    background: rgba(139, 163, 255, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(139, 163, 255, 0.4);
+    
+    /* Скрываем по умолчанию */
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+
+
+.pin-button:hover {
+    background: #8ba3ff;
+    border-color: #fff;
+    box-shadow: 0 0 15px rgba(139, 163, 255, 0.5);
+}
+
+
+
+/* Стиль закрепленной карточки (неоновое выделение) */
+.content.pinned-style {
+    border: 1px solid rgba(176, 147, 251, 0.4) !important;
+    box-shadow: 0 0 20px rgba(176, 147, 251, 0.15) !important;
+}
