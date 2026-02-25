@@ -7,7 +7,7 @@ SECRET_KEY = 'django-insecure-mi2cv#je8*$3etxpse5)e6u^jhgiziu(n-akwm*g#c8bl8tpl9
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost" , "vault.aknet.kg"]
+ALLOWED_HOSTS = ["*"]
 
 
 
